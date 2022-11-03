@@ -4,10 +4,12 @@
 \alias{clearStore}
 \title{Clear storage for an application}
 \usage{
-clearStore(appId)
+clearStore(appId, session = getDefaultReactiveDomain())
 }
 \arguments{
 \item{appId}{the application identification}
+
+\item{session}{session object}
 }
 \value{
 No return value, called for side effects

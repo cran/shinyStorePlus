@@ -3,6 +3,7 @@
 #' Remove all stored inputs of an application
 #'
 #' @param appId the application identification
+#' @param session session object
 #'
 #' @note Ensure not to use this function when the inputs are intended to be tracked.
 #' @return No return value, called for side effects
@@ -30,10 +31,6 @@
 #' @export
 #'
 
-clearStore <- function(appId) {
-  envir <- parent.frame()
-  envir$session$sendCustomMessage(
-    "clearStorage",
-    appId
-  )
+clearStore <- function(appId, session = getDefaultReactiveDomain()) {
+  session$sendCustomMessage("clearStorage", appId)
 }
