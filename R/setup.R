@@ -4,8 +4,10 @@
 #'
 #' @param appId your desired application id
 #' @param inputs choose whether to track all inputs or specific input variables
+#' @param outputs choose whether to track all outputs or specific output variables
+#' @param session current session to track
 #'
-#' @note the inputs argument may be a \code{TRUE} or \code{FALSE} or a list of input ids
+#' @note the inputs argument may be a \code{TRUE} or \code{FALSE} or a list of input ids. More examples are located at https://github.com/oobianom/aagarw30_shinyapps_to-shinyStorePlus
 #' @return Embed within a page storage that allows input changes to be saved without slowing down the shiny application
 #' @examples
 #' \donttest{
@@ -131,16 +133,15 @@
 #' @export
 #'
 
-setupStorage <- function(appId, inputs = TRUE) {
+setupStorage <- function(appId, inputs = TRUE, outputs = FALSE, session = getDefaultReactiveDomain()) {
   envir <- parent.frame()
   input <- envir$input
   output <- envir$output
-  session <- envir$session
   # setup input stores
   result <- (list(
     appname = appId,
     input = inputs,
-    output = FALSE
+    output = outputs
   ))
   session$sendCustomMessage(
     "retriever",

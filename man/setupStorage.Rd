@@ -4,12 +4,21 @@
 \alias{setupStorage}
 \title{Set up inputs for storage}
 \usage{
-setupStorage(appId, inputs = TRUE)
+setupStorage(
+  appId,
+  inputs = TRUE,
+  outputs = FALSE,
+  session = getDefaultReactiveDomain()
+)
 }
 \arguments{
 \item{appId}{your desired application id}
 
 \item{inputs}{choose whether to track all inputs or specific input variables}
+
+\item{outputs}{choose whether to track all outputs or specific output variables}
+
+\item{session}{current session to track}
 }
 \value{
 Embed within a page storage that allows input changes to be saved without slowing down the shiny application
@@ -18,7 +27,7 @@ Embed within a page storage that allows input changes to be saved without slowin
 Set up the application and inputs to track and retrieve stores
 }
 \note{
-the inputs argument may be a \code{TRUE} or \code{FALSE} or a list of input ids
+the inputs argument may be a \code{TRUE} or \code{FALSE} or a list of input ids. More examples are located at https://github.com/oobianom/aagarw30_shinyapps_to-shinyStorePlus
 }
 \examples{
 \donttest{
