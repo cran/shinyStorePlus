@@ -1,7 +1,8 @@
 Package: shinyStorePlus
 Type: Package
-Title: Secure in-Browser Storage for 'Shiny' Inputs and Variables
-Version: 0.9
+Title: Secure in-Browser Storage for 'Shiny' Inputs, Outputs and
+        Variables
+Version: 1.1
 Authors@R: c(
     person("Obinna", "Obianom", email = "idonshayo@gmail.com", role = c("aut", "cre")))
 Maintainer: Obinna Obianom <idonshayo@gmail.com>
@@ -10,15 +11,15 @@ License: MIT + file LICENSE
 URL: https://shinystoreplus.obi.obianom.com
 BugReports: https://github.com/oobianom/shinyStorePlus
 Depends: R (>= 3.6)
-Imports: shiny, jsonlite, utils, htmltools
+Imports: shiny, jsonlite, utils, htmltools, shinyWidgets
 Suggests: rmarkdown, knitr, qpdf
 Encoding: UTF-8
 VignetteBuilder: knitr
 Language: en-US
 LazyData: false
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 NeedsCompilation: no
-Packaged: 2023-02-15 11:42:08 UTC; in198
+Packaged: 2023-04-05 15:09:56 UTC; in198
 Author: Obinna Obianom [aut, cre]
 Repository: CRAN
-Date/Publication: 2023-02-15 11:50:02 UTC
+Date/Publication: 2023-04-05 15:50:02 UTC

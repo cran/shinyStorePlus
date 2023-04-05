@@ -168,7 +168,8 @@ setupStorage <- function(appId, inputs = TRUE, outputs = FALSE, session = getDef
                   shiny::updateSelectInput(session, inputId = thisrow$var, selected = selrange)
                 },
                 "checkboxgroup" = {
-                  shiny::updateCheckboxGroupInput(session, inputId = thisrow$var, selected = selrange)
+                  try(shinyWidgets::updateCheckboxGroupButtons(session, inputId = thisrow$var, selected = selrange),silent = TRUE)
+                  try(shiny::updateCheckboxGroupInput(session, inputId = thisrow$var, selected = selrange),silent = TRUE)
                 },
                 "dateinput" = {
                   if (length(selrange) == 1) {
@@ -181,10 +182,12 @@ setupStorage <- function(appId, inputs = TRUE, outputs = FALSE, session = getDef
                   shiny::updateDateRangeInput(session, start = selrange[1], end = selrange[2], inputId = thisrow$var)
                 },
                 "checkbox" = {
-                  shiny::updateCheckboxInput(session, inputId = thisrow$var, value = as.logical(thisrow$value))
+                  try(shinyWidgets::updateSwitchInput(session, inputId = thisrow$var, value = as.logical(thisrow$value)), silent = TRUE)
+                  try(shiny::updateCheckboxInput(session, inputId = thisrow$var, value = as.logical(thisrow$value)), silent = TRUE)
                 },
                 "radio" = {
-                  shiny::updateRadioButtons(session, inputId = thisrow$var, selected = thisrow$value)
+                  try(shinyWidgets::updateRadioGroupButtons(session, inputId = thisrow$var, selected = thisrow$value), silent = TRUE)
+                  try(shiny::updateRadioButtons(session, inputId = thisrow$var, selected = thisrow$value), silent = TRUE)
                 },
                 {
                   shiny::updateTextInput(session, inputId = thisrow$var, value = selrange)
