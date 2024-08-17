@@ -8,7 +8,8 @@ setupStorage(
   appId,
   inputs = TRUE,
   outputs = FALSE,
-  session = getDefaultReactiveDomain()
+  session = getDefaultReactiveDomain(),
+  dyn.inputs = list()
 )
 }
 \arguments{
@@ -19,12 +20,17 @@ setupStorage(
 \item{outputs}{choose whether to track all outputs or specific output variables}
 
 \item{session}{current session to track}
+
+\item{dyn.inputs}{dynamic inputs; inputs that get added to the app from the server function}
 }
 \value{
 Embed within a page storage that allows input changes to be saved without slowing down the shiny application
 }
 \description{
 Set up the application and inputs to track and retrieve stores
+}
+\details{
+As of version 1.2, the user may be able to store dynamically generated inputs \cr
 }
 \note{
 the inputs argument may be a \code{TRUE} or \code{FALSE} or a list of input ids. More examples are located at https://github.com/oobianom/aagarw30_shinyapps_to-shinyStorePlus
@@ -148,6 +154,41 @@ if (interactive()) {
   }
   shiny::shinyApp(ui = ui, server = server)
 }
+
+# example 3 with dynamically generated inputs
+if(interactive()){
+  ui <- shiny::fluidPage(
+    titlePanel("Select option,
+               then referesh page."),
+    initStore(),
+    selectInput("sel_color",
+                "Color (hardcoded input):",
+                choices = c("", "green", "blue",
+                            "red", "yellow",
+                            "cyan"), selected = ""),
+    uiOutput("ui_moreinputs")
+  )
+
+  server <- function(input, output, session) {
+    observe({
+      output$ui_moreinputs <- renderUI(
+        selectInput("sel_month",
+                    "Month (dynamically generated):",
+                    choices = c("", month.name),
+                    selected = "")
+      )
+    })
+
+    setupStorage(appId = "dynamic02",
+                 inputs = list("sel_color"),
+                 dyn.inputs = list("sel_month"),
+                 session = session)
+  }
+
+  shinyApp(ui = ui, server = server)
+}
+
+
 }
 
 }

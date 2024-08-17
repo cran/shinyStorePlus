@@ -4,8 +4,11 @@
 #'
 #' @param appId your desired application id
 #' @param inputs choose whether to track all inputs or specific input variables
+#' @param dyn.inputs dynamic inputs; inputs that get added to the app from the server function
 #' @param outputs choose whether to track all outputs or specific output variables
 #' @param session current session to track
+#' @details
+#' As of version 1.2, the user may be able to store dynamically generated inputs \cr
 #'
 #' @note the inputs argument may be a \code{TRUE} or \code{FALSE} or a list of input ids. More examples are located at https://github.com/oobianom/aagarw30_shinyapps_to-shinyStorePlus
 #' @return Embed within a page storage that allows input changes to be saved without slowing down the shiny application
@@ -128,21 +131,57 @@
 #'   }
 #'   shiny::shinyApp(ui = ui, server = server)
 #' }
+#'
+#' # example 3 with dynamically generated inputs
+#' if(interactive()){
+#'   ui <- shiny::fluidPage(
+#'     titlePanel("Select option,
+#'                then referesh page."),
+#'     initStore(),
+#'     selectInput("sel_color",
+#'                 "Color (hardcoded input):",
+#'                 choices = c("", "green", "blue",
+#'                             "red", "yellow",
+#'                             "cyan"), selected = ""),
+#'     uiOutput("ui_moreinputs")
+#'   )
+#'
+#'   server <- function(input, output, session) {
+#'     observe({
+#'       output$ui_moreinputs <- renderUI(
+#'         selectInput("sel_month",
+#'                     "Month (dynamically generated):",
+#'                     choices = c("", month.name),
+#'                     selected = "")
+#'       )
+#'     })
+#'
+#'     setupStorage(appId = "dynamic02",
+#'                  inputs = list("sel_color"),
+#'                  dyn.inputs = list("sel_month"),
+#'                  session = session)
+#'   }
+#'
+#'   shinyApp(ui = ui, server = server)
+#' }
+#'
+#'
 #' }
 #'
 #' @export
 #'
 
-setupStorage <- function(appId, inputs = TRUE, outputs = FALSE, session = getDefaultReactiveDomain()) {
+setupStorage <- function(appId, inputs = TRUE, outputs = FALSE, session = getDefaultReactiveDomain(), dyn.inputs = list()) {
   envir <- parent.frame()
   input <- envir$input
   output <- envir$output
   # setup input stores
-  result <- (list(
+  result <- list(
     appname = appId,
     input = inputs,
-    output = outputs
-  ))
+    output = outputs,
+    dinput = dyn.inputs
+  )
   session$sendCustomMessage(
     "retriever",
     result
@@ -190,7 +229,9 @@ setupStorage <- function(appId, inputs = TRUE, outputs = FALSE, session = getDef
                   try(shiny::updateRadioButtons(session, inputId = thisrow$var, selected = thisrow$value), silent = TRUE)
                 },
                 {
-                  shiny::updateTextInput(session, inputId = thisrow$var, value = selrange)
+                  inputId = thisrow$var
+                  message <- rmNULL(list(label=NULL, value=selrange, placeholder=NULL))
+                  session$sendInputMessage(inputId, message)
                 }
               )
             }
@@ -207,3 +248,4 @@ setupStorage <- function(appId, inputs = TRUE, outputs = FALSE, session = getDef
     }
   })
 }
+

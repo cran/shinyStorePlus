@@ -2,15 +2,15 @@ Package: shinyStorePlus
 Type: Package
 Title: Secure in-Browser Storage for 'Shiny' Inputs, Outputs and
         Variables
-Version: 1.1
+Version: 1.2
 Authors@R: c(
     person("Obinna", "Obianom", email = "idonshayo@gmail.com", role = c("aut", "cre")))
 Maintainer: Obinna Obianom <idonshayo@gmail.com>
 Description: Store persistent and synchronized data from 'Shiny' inputs within the browser in a secure format. Refresh 'Shiny' applications and preserve user-inputs over multiple sessions. A database-like storage format is implemented using 'Dexie.js' <https://dexie.org>, a minimal wrapper for 'IndexedDB'. Transfer browser link parameters to 'Shiny' input or output values.
 License: MIT + file LICENSE
 URL: https://shinystoreplus.obi.obianom.com
-BugReports: https://github.com/oobianom/shinyStorePlus
-Depends: R (>= 3.6)
+BugReports: https://github.com/oobianom/shinyStorePlus/issues
+Depends: R (> 3.6)
 Imports: shiny, jsonlite, utils, htmltools, shinyWidgets
 Suggests: rmarkdown, knitr, qpdf
 Encoding: UTF-8
@@ -19,7 +19,7 @@ Language: en-US
 LazyData: false
 RoxygenNote: 7.2.3
 NeedsCompilation: no
-Packaged: 2023-04-05 15:09:56 UTC; in198
+Packaged: 2024-08-17 10:23:20 UTC; in198
 Author: Obinna Obianom [aut, cre]
 Repository: CRAN
-Date/Publication: 2023-04-05 15:50:02 UTC
+Date/Publication: 2024-08-17 10:40:05 UTC
