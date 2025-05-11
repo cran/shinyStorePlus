@@ -1,14 +1,15 @@
 # shinyStorePlus R package <img src="https://shinystoreplus.obi.obianom.com/hex-shinyStorePlus.png" align="right" width="200">
 
-### THREE MAIN FEATURES: 
+### FOUR MAIN FEATURES: 
 
  - [x] In-browser storage for Shiny persistent, synchronized data from the inputs using IndexedDB. 
  - [x] Transfer browser link parameters to Shiny input or output values.
- - [x] __Store shiny app visitor views, likes and followers !NEW__
+ - [x] Execute shiny::observe once across multiple browser sessions e.g show welcome message only once to a user
+ - [x] __Store shiny app visitor views, likes and followers using api.rpkg.net !NEW__
 
-Note: As of version 1.3, shinyStorePlus now allows storage of visitor views, likes and followers
+Note: As of version 1.4, shinyStorePlus now allows storage of visitor views, likes and followers
 
-Note: As of version 1.2, shinyStorePlus now stores inputs dynamically generated within the server function.
+Note: As of version 1.5, shinyStorePlus now use of "*" in the __dyn.inputs__ of setupStorage(). [check](inst/example/dynamicInput/app2.R)
 
 ---------------------------------------------------------------------------------------
 
@@ -76,34 +77,44 @@ install_github("oobianom/shinyStorePlus")
 ## Sample code
 
 ```
+quickcode::clean(clearPkgs = TRUE) #clear all environment and previous loaded packages
 library(shiny)
 library(shinyStorePlus)
 ui <- fluidPage(
-  titlePanel("Simplified shiny app storage of views, likes and followers"),
-  initStore("all",rpkg.api.key = "c20c5eead7714c119dd3f20bd249a388e72db2aa0f9305d0380b683a37c5296a"),
-  h2("Save App Views"),hr(),
+  titlePanel("Simplified shiny app in-browser storage of inputs, long term storage of app views, likes and followers"),
+  initStore("all",rpkg.api.key = "c20c5eead7714c119dd3f20bd249a388e72db2aa0f9305d0380b683a37c5296a"), # need to get api at https://api.rpkg.net
+  tags$h2("Save App Views"),hr(),
   viewsBox("viewsshow","loading views..."),
-  h2("Save App Likes, and allow user to Like!"),hr(),
+  tags$h2("Save App Likes, and allow user to Like!"),hr(),
   lfButton("liket",suffix="likes"),
-  h2("Save App Followers, and allow user to Follow!"),hr(),
+  tags$h2("Save App Followers, and allow user to Follow!"),hr(),
   lfButton("followt",suffix="followers"),
-  h2("Also incorporate in-browser storage for input fields!"),hr(),
+  tags$h2("Also incorporate in-browser storage for input fields!"),hr(),
   selectInput("sel_not0", "Color (store):", choices = c("","brown", "green", "blue", "red", "yellow", "cyan"), selected = ""),
   selectInput("sel_color", "Color (should be stored):", choices = c("", "green", "blue", "red", "yellow", "cyan"), selected = ""),
-  hr(),p(p(i("Like or Follow and Refresh the page - the values are saved and the views are incremented.")))
+  tags$h2(id="dyn1","Dynamic Input Selected By Full ID name"),
+  hr(),tags$p(tags$i("Like or Follow and Refresh the page - the values are saved and the views are incremented."))
 )
 
 server <- function(input, output, session) {
+  insertUI( selector = "#dyn1", where = "afterEnd", ui = textInput("dynamicinput1", "Dynamic input","test" ) )
+  
   # set up views, likes and follows, leave as NULL if you don't need tracking for either
   # in this case, we leave followID as NULL since we don't need to use that
   setupRPKG(viewsID = "viewsshow", likesID = "liket", followID = "followt")
-
-  # setup for in browser tracking
-  setupStorage(appId = "shinest12", inputs = c("sel_not0","sel_color"), session = session)
+  
+  # setup for in browser tracking for all inputs
+  # setupStorage(appId = "shinestz12", inputs = TRUE, session = session)
+  
+  # setup for in browser tracking for specific inputs
+  # setupStorage(appId = "shinesty12", inputs = c("sel_not0","sel_color"), session = session)
+  
+  # setup for in browser tracking for dynamic inputs
+  setupStorage(appId = "shinestx12", dyn.inputs = list("dynamicinput1"), session = session)
 }
 
 
-shinyApp(ui = ui, server = server, options = list(launch.browser = TRUE,shiny.port =7171))
+shinyApp(ui = ui, server = server)
 
 
 ```

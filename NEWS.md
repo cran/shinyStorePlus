@@ -1,3 +1,9 @@
+# shinyStorePlus 1.5
+--------------------------------------------------------------------------
+##  Features
+
+- [x] Update to setupStorage(), allowing the use of "*" to select dynamic IDs starting or ending with particular words. Example at /inst/example/dynamicInput/app2.R
+
 # shinyStorePlus 1.4
 --------------------------------------------------------------------------
 ##  Features
