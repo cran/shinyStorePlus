@@ -2,7 +2,7 @@ Package: shinyStorePlus
 Type: Package
 Title: Secure in-Browser and Database Storage for 'shiny' Inputs,
         Outputs, Views and User Likes
-Version: 1.5
+Version: 1.6
 Authors@R: c(
     person("Obinna", "Obianom", email = "idonshayo@gmail.com", role = c("aut", "cre")))
 Maintainer: Obinna Obianom <idonshayo@gmail.com>
@@ -19,7 +19,7 @@ Language: en-US
 LazyData: false
 RoxygenNote: 7.2.3
 NeedsCompilation: no
-Packaged: 2025-05-11 15:12:28 UTC; in198
+Packaged: 2025-06-06 07:57:35 UTC; in198
 Author: Obinna Obianom [aut, cre]
 Repository: CRAN
-Date/Publication: 2025-05-11 15:40:02 UTC
+Date/Publication: 2025-06-06 08:20:02 UTC
